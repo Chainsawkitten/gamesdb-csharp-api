@@ -18,6 +18,10 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+# Sandcastle documentation
+TheGamesDBAPI/doc
+TheGamesDBAPI/doc.xml
+
 # Roslyn cache directories
 *.ide/
 
