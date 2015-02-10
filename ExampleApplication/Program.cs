@@ -100,6 +100,12 @@ namespace ConsoleApplication1 {
                 Console.WriteLine(game.Title + " : " + game.ReleaseDate + " : " + game.Platform);
             }
 
+            // Test getting updated games
+            Console.WriteLine("=Getting list of updated games in the last 10000 seconds=");
+            foreach (int game in GamesDB.GetUpdatedGames(10000)) {
+                Console.WriteLine(game);
+            }
+
             // Test getting a user's favorites
             if (AccountIdentifier != "")
             {

@@ -67,6 +67,35 @@ namespace TheGamesDBAPI {
         }
 
         /// <summary>
+        /// Gets all games updated since the specified time.
+        /// </summary>
+        /// <param name="time">Last x seconds to get updated games for</param>
+        /// <returns>A collection of game ID's for games that have been updated</returns>
+        public static ICollection<int> GetUpdatedGames(int time) {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"http://thegamesdb.net/api/Updates.php?time=" + time);
+
+            XmlNode root = doc.DocumentElement;
+            IEnumerator ienum = root.GetEnumerator();
+            ienum.MoveNext();
+
+            List<int> games = new List<int>();
+
+            // Iterate through all games
+            XmlNode gameNode;
+            while (ienum.MoveNext()) {
+                gameNode = (XmlNode)ienum.Current;
+
+                int game;
+                int.TryParse(gameNode.InnerText, out game);
+
+                games.Add(game);
+            }
+
+            return games;
+        }
+
+        /// <summary>
         /// Gets the data for a specific game.
         /// </summary>
         /// <param name="ID">The game ID to return data for</param>
