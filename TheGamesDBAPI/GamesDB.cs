@@ -306,6 +306,77 @@ namespace TheGamesDBAPI {
         }
 
         /// <summary>
+        /// Gets all the games for a platform. The Platform field will not be filled.
+        /// </summary>
+        /// <param name="ID">The platform ID to return games for (can be found by using GetPlatformsList)</param>
+        /// <returns>A collection of all the games on the platform</returns>
+        public static ICollection<GameSearchResult> GetPlatformGames(int ID) {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"http://thegamesdb.net/api/GetPlatformGames.php?platform=" + ID);
+
+            XmlNode root = doc.DocumentElement;
+            IEnumerator ienum = root.GetEnumerator();
+
+            List<GameSearchResult> games = new List<GameSearchResult>();
+
+            // Iterate through all games
+            XmlNode gameNode;
+            while (ienum.MoveNext()) {
+                GameSearchResult game = new GameSearchResult();
+                gameNode = (XmlNode)ienum.Current;
+
+                IEnumerator ienumGame = gameNode.GetEnumerator();
+                XmlNode attributeNode;
+                while (ienumGame.MoveNext()) {
+                    attributeNode = (XmlNode)ienumGame.Current;
+
+                    // Iterate through all game attributes
+                    switch (attributeNode.Name) {
+                        case "id":
+                            int.TryParse(attributeNode.InnerText, out game.ID);
+                            break;
+                        case "GameTitle":
+                            game.Title = attributeNode.InnerText;
+                            break;
+                        case "ReleaseDate":
+                            game.ReleaseDate = attributeNode.InnerText;
+                            break;
+                    }
+                }
+
+                games.Add(game);
+            }
+
+            return games;
+        }
+
+        /// <summary>
+        /// Gets all the games for a platform.
+        /// </summary>
+        /// <param name="platform">The platform to return games for</param>
+        /// <returns>A collection of all the games on the platform</returns>
+        public static ICollection<GameSearchResult> GetPlatformGames(Platform platform) {
+            ICollection<GameSearchResult> games = GetPlatformGames(platform.ID);
+            foreach (GameSearchResult game in games) {
+                game.Platform = platform.Name;
+            }
+            return games;
+        }
+
+        /// <summary>
+        /// Gets all the games for a platform.
+        /// </summary>
+        /// <param name="platform">The platform to return games for</param>
+        /// <returns>A collection of all the games on the platform</returns>
+        public static ICollection<GameSearchResult> GetPlatformGames(PlatformSearchResult platform) {
+            ICollection<GameSearchResult> games = GetPlatformGames(platform.ID);
+            foreach (GameSearchResult game in games) {
+                game.Platform = platform.Name;
+            }
+            return games;
+        }
+
+        /// <summary>
         /// Gets all of a user's favorites.
         /// </summary>
         /// <param name="AccountIdentifier">The unique 'account identifier' of the user in question. It can be found on their 'My User Info' page.</param>

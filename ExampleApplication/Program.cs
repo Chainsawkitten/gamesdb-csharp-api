@@ -45,6 +45,13 @@ namespace ConsoleApplication1 {
                 Console.WriteLine(image.Path + " : " + image.Width + "x" + image.Height);
             }
 
+            // Test getting all games for Xbox360
+            Console.WriteLine("=Getting all Xbox360 games=");
+            ICollection<GameSearchResult> games = GamesDB.GetPlatformGames(Xbox360);
+            foreach (GameSearchResult game in games) {
+                Console.WriteLine(game.Title + " : " + game.ReleaseDate + " : " + game.Platform);
+            }
+
             // Test getting platforms
             Console.WriteLine("=Getting list of platforms=");
             foreach (PlatformSearchResult platform in GamesDB.GetPlatforms()) {
