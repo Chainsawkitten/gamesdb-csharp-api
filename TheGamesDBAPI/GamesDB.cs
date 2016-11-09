@@ -141,6 +141,9 @@ namespace TheGamesDBAPI {
                     case "Players":
                         game.Players = attributeNode.InnerText;
                         break;
+                    case "Co-op":
+                        game.Coop = attributeNode.InnerText;
+                        break;
                     case "Publisher":
                         game.Publisher = attributeNode.InnerText;
                         break;
