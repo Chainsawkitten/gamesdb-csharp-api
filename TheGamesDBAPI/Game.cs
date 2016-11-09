@@ -44,7 +44,12 @@ namespace TheGamesDBAPI {
         /// How many players the game supports. "1","2","3" or "4+".
         /// </summary>
         public String Players;
-        
+
+        /// <summary>
+        /// Whether the game supports Co-op play or not.
+        /// </summary>
+        public String Coop;
+
         /// <summary>
         /// The publisher(s) of the game.
         /// </summary>
